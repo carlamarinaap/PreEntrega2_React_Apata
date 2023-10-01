@@ -11,24 +11,3 @@ h1 {
   font-weight: bold;
   font-style: oblique;
 }
-
-.btn .badge {
-  position: absolute;
-  top: 1.7rem;
-}
-.btn {
-  margin-left: 132px;
-}
-
-@media(max-width: 991px) {
-  .dropdown-menu[data-bs-popper] {
-    width: min-content;
-  }
-  .btn .badge {
-    position: relative;
-    top: -1px;
-  }
-  .btn {
-    margin-left: 0;
-  }
-}
