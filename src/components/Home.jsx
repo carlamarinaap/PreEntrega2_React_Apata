@@ -1,11 +1,11 @@
 import CarouselBienvenida from './CarouselBienvenida';
 import ItemListContainer from './ItemListContainer';
 
-function Home({contador, setContador}) {
+function Home(productos, setProductos) {
   return (
     <>
       <CarouselBienvenida/>
-      <ItemListContainer greeting={'Mirá nuestros productos'} contador={contador} setContador={setContador}/>
+      <ItemListContainer greeting={'Mirá nuestros productos'} esCarro={false} productos={productos} setProductos={setProductos} />
     </>
   );
 }

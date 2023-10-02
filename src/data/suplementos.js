@@ -144,5 +144,17 @@ export const suplementos = [
 ]
 
 export function getItemById (id){
-  return suplementos.find((item) => item.id === id)
+  return new Promise ((resolve) => {
+    resolve(suplementos.find(prod => prod.id === id))
+})
+}
+
+export function getItemByCategoria (categoria){
+  return new Promise ((resolve) => {
+        resolve(suplementos.filter(prod => prod.categoria === categoria))
+    })
+}
+
+export function getProductos (){
+    return new Promise((resolve) => (resolve(suplementos)))
 }

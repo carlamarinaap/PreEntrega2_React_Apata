@@ -9,22 +9,29 @@ import proteina from '../img/proteina.jpg'
 import barra from '../img/barra.jpg'
 import pildora from '../img/pildora.png'
 import gel from '../img/gel.jpeg'
+import tarro from '../img/tarro.png'
+import { useEffect } from "react";
 
 
-function ItemDetailContainer ({contador,setContador,carrito, setCarrito}) {
+function ItemDetailContainer ({contador,setContador,productos, setProductos}) {
   const { itemId } = useParams()
-  const prod = getItemById(itemId)
 
-  const agregarAlCarrito = (prod) => {
-    if (prod.stock > 0) {
+  useEffect(() => {
+    getItemById(itemId)
+      .then(response => {setProductos(response);})
+      .catch(error => {console.error(error)});
+  }, [itemId]);
+
+
+  const agregarAlCarrito = (productos) => {
+    if (productos.stock > 0) {
       setContador(contador + 1)
-      setCarrito([...carrito, prod]);
-      prod.stock --
+      productos.stock --
 
     }
   }
   let imagen = '';
-  switch (prod.categoria) {
+  switch (productos.categoria) {
     case 'barra': 
       imagen = barra;
       break;
@@ -47,25 +54,27 @@ function ItemDetailContainer ({contador,setContador,carrito, setCarrito}) {
       imagen = creatina;
       break;
     case 'ultra': 
-      imagen = ultra  ;
+      imagen = ultra;
       break;
+    default:
+      imagen = tarro;
   }
   
   return(
     <>
-    <Link to={`/item/${prod.id}`}></Link>
-      <Card style={{ width: '18rem', margin:'1rem', padding:'0'}} key={prod.id}>
-        <Card.Img variant="top" src={imagen} alt={prod.producto} />
+   
+      <Card style={{ width: '18rem', margin:'1rem', padding:'0'}} key={productos.id}>
+        <Card.Img variant="top" src={imagen} alt={productos.producto} />
         <Card.Body>
-          <Card.Title className="text-center">{prod.producto}</Card.Title>
+          <Card.Title className="text-center">{productos.producto}</Card.Title>
           <Card.Text>
-            {prod.descripcion}
+            {productos.descripcion}
           </Card.Text>
-          <Button variant="dark" onClick={() => agregarAlCarrito(prod,contador)}>Agregar</Button>
+          <Button variant="dark" onClick={() => agregarAlCarrito(productos,contador)}>Agregar al Carrito</Button>
         </Card.Body>
-        <Card.Footer className="text-muted text-center">Stock: {prod.stock}</Card.Footer>
+        <Card.Footer className="text-muted text-center">Stock: {productos.stock}</Card.Footer>
       </Card>
-      <Button as={Link} to="/productos" variant="outline-dark" >Volver</Button>
+      <Button as={Link} to="/" variant="outline-dark" >Volver</Button>
     </>
   )
 }

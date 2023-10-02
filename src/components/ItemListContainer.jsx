@@ -1,34 +1,37 @@
 import { useEffect, useState } from "react";
-import {suplementos} from '../data/suplementos'
-import { Link } from "react-router-dom";
+import { getProductos,getItemByCategoria }  from '../data/suplementos'
+import Card from 'react-bootstrap/Card';
+import { Link, useParams } from 'react-router-dom';
 
-function ItemListContainer({greeting,esCarro=false,carrito}) {  
+function ItemListContainer({greeting}) {  
   const [productos, setProductos] = useState([]);
+  const { categoriaId } = useParams() 
 
-  const getProductos = () => {
-    if (esCarro === false){
-      return new Promise((resolve) => (resolve(suplementos)))
-    } else {
-      return new Promise((resolve) => (resolve(carrito)))
-    }
-  }
+
   useEffect(() => {
-      getProductos()
-      .then(response => {setProductos(response)})
-      .catch(error => {console.log(error)})
-  },[esCarro])
+    const asyncFunc = categoriaId ? getItemByCategoria : getProductos;
+    asyncFunc(categoriaId)
+      .then(response => {setProductos(response);})
+      .catch(error => {console.error(error);});
+  }, [categoriaId]);
+
+
   return (
     <>
       <h1 className="text-center m-3">  
         {greeting}
       </h1> 
-      <div className="d-grid ">
-        <div className="row justify-content-around">
-          {productos.map((prod) => (
-            <Link className='col-3' key={prod.id} to={`/productos/${prod.id}`}>{prod.producto}</Link>
-          ))}
-        </div>
+      <div className="d-grid m-5">
+      <div className="row justify-content-around">
+        {productos.map((prod) => (
+          <Card className='text-center m-1 bg-light' style={{ width: '18rem' }}> 
+            <Card.Body key={prod.id} >{prod.producto}</Card.Body>
+            <p>Stock: {prod.stock}</p>
+            <Card.Title as={Link} to={`/item/${prod.id}`}>Ver Producto</Card.Title>
+          </Card>
+        ))}
       </div>
+    </div>
     </>
   )
 }

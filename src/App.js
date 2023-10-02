@@ -10,16 +10,15 @@ import Footer from './components/Footer';
 
 function App() {
   const [contador,setContador] = useState(0)
-  const [carrito, setCarrito] = useState([]);
+  const [productos, setProductos] = useState([]);
 
   return (
     <BrowserRouter className='App'>
       <NavBar contador={contador}/>
       <Routes>
-        <Route path='/productos' element={<ItemListContainer greeting={'Lista de Productos'} />}/>
-        <Route path='/productos/:itemId' element={<ItemDetailContainer contador={contador} setContador={setContador} carrito={carrito} setCarrito={setCarrito}/>}/>
-        <Route path='/carrito' element={<ItemListContainer greeting={'Tu Carrito'} esCarro={true} carrito={carrito}/>}/>
-        <Route path='/home' element={<Home contador={contador} setContador={setContador} />}/>
+        <Route path='/' element={<Home productos={productos} setProductos={setProductos}/>}/>
+        <Route path='/categoria/:categoriaId' element={<ItemListContainer greeting={''} productos={productos} setProductos={setProductos}/>}/>
+        <Route path='/item/:itemId' element={<ItemDetailContainer contador={contador} setContador={setContador} productos={productos} setProductos={setProductos} />}/>
         <Route path='/quienes-somos' element={<QuienesSomos />}/>
         <Route path='/contacto' element={<Contacto />}/>
       </Routes>
