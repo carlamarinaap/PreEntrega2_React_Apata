@@ -36,6 +36,7 @@ function ItemDetailContainer ({contador,setContador,productos, setProductos,setC
 
   const agregarAlCarrito = (productos) => {
     if (productos.stock > 0) {
+      setContador(0)
       setCarrito(carrito + contador)
       productos.stock = productos.stock - contador
     }
