@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import {Link, useParams} from 'react-router-dom'
 import { getItemById } from "../data/suplementos";
 import carnitina from '../img/carnitina.jpg'
@@ -11,6 +11,7 @@ import pildora from '../img/pildora.png'
 import gel from '../img/gel.jpeg'
 import tarro from '../img/tarro.png'
 import { useEffect } from "react";
+import { TieneStockDetail } from "./TieneStock";
 
 
 function ItemDetailContainer ({contador,setContador,productos, setProductos,setCarrito, carrito}) {
@@ -23,24 +24,6 @@ function ItemDetailContainer ({contador,setContador,productos, setProductos,setC
   }, [itemId]);
 
 
-  const incremento = () => {
-    if (contador < productos.stock ) {
-      setContador(contador + 1)
-    }
-  }
-  const decremento = () => {
-    if (contador > 0 ) {
-      setContador(contador - 1)
-    }
-  }
-
-  const agregarAlCarrito = (productos) => {
-    if (productos.stock > 0) {
-      setContador(0)
-      setCarrito(carrito + contador)
-      productos.stock = productos.stock - contador
-    }
-  }
   let imagen = '';
   switch (productos.categoria) {
     case 'barra': 
@@ -81,15 +64,7 @@ function ItemDetailContainer ({contador,setContador,productos, setProductos,setC
             <Card.Text>
               <p>{productos.descripcion}</p>
             </Card.Text>
-            <div className="d-flex justify-content-between">
-              <h3>${productos.precio}</h3>
-              <ButtonGroup aria-label="Basic example">
-                <Button variant="dark" onClick={decremento}>-</Button>
-                <Button disabled variant="light">{contador}</Button>
-                <Button variant="dark" onClick={incremento}>+</Button>
-              </ButtonGroup>
-              <Button variant="dark" onClick={() => agregarAlCarrito(productos,contador)}>Agregar</Button>
-            </div>
+            <TieneStockDetail productos={productos} contador={contador} carrito={carrito} setCarrito={setCarrito} setContador={setContador} />
           </Card.Body>
           <Card.Footer className="text-muted text-center">Stock: {productos.stock}</Card.Footer>
         </Card>
