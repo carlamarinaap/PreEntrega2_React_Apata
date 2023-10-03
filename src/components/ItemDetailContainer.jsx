@@ -62,15 +62,17 @@ function ItemDetailContainer ({contador,setContador,productos, setProductos}) {
   
   return(
     <>
-   
       <Card style={{ width: '18rem', margin:'1rem', padding:'0'}} key={productos.id}>
         <Card.Img variant="top" src={imagen} alt={productos.producto} />
         <Card.Body>
           <Card.Title className="text-center">{productos.producto}</Card.Title>
           <Card.Text>
-            {productos.descripcion}
+            <p>{productos.descripcion}</p>
           </Card.Text>
-          <Button variant="dark" onClick={() => agregarAlCarrito(productos,contador)}>Agregar al Carrito</Button>
+          <div className="d-flex justify-content-between">
+            <h3>${productos.precio}</h3>
+            <Button variant="dark" onClick={() => agregarAlCarrito(productos,contador)}>Agregar al Carrito</Button>
+          </div>
         </Card.Body>
         <Card.Footer className="text-muted text-center">Stock: {productos.stock}</Card.Footer>
       </Card>
