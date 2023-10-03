@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import '../navBar.css'
 
 
-function NavBar({contador}) {
+function NavBar({carrito}) {
   return (
     <Navbar expand="lg" className="bg-light"  >
       <Container>
@@ -28,7 +28,7 @@ function NavBar({contador}) {
 
             </NavDropdown>
           </Nav>
-          <CartWidget contador={contador}/>
+          <CartWidget carrito={carrito}/>
         </Navbar.Collapse>
         </Container>
     </Navbar>

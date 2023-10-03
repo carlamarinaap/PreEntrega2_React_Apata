@@ -1,4 +1,4 @@
-import { Button, Card } from "react-bootstrap";
+import { Button, ButtonGroup, Card } from "react-bootstrap";
 import {Link, useParams} from 'react-router-dom'
 import { getItemById } from "../data/suplementos";
 import carnitina from '../img/carnitina.jpg'
@@ -13,7 +13,7 @@ import tarro from '../img/tarro.png'
 import { useEffect } from "react";
 
 
-function ItemDetailContainer ({contador,setContador,productos, setProductos}) {
+function ItemDetailContainer ({contador,setContador,productos, setProductos,setCarrito, carrito}) {
   const { itemId } = useParams()
 
   useEffect(() => {
@@ -23,11 +23,21 @@ function ItemDetailContainer ({contador,setContador,productos, setProductos}) {
   }, [itemId]);
 
 
+  const incremento = () => {
+    if (contador < productos.stock ) {
+      setContador(contador + 1)
+    }
+  }
+  const decremento = () => {
+    if (contador > 0 ) {
+      setContador(contador - 1)
+    }
+  }
+
   const agregarAlCarrito = (productos) => {
     if (productos.stock > 0) {
-      setContador(contador + 1)
-      productos.stock --
-
+      setCarrito(carrito + contador)
+      productos.stock = productos.stock - contador
     }
   }
   let imagen = '';
@@ -72,7 +82,12 @@ function ItemDetailContainer ({contador,setContador,productos, setProductos}) {
             </Card.Text>
             <div className="d-flex justify-content-between">
               <h3>${productos.precio}</h3>
-              <Button variant="dark" onClick={() => agregarAlCarrito(productos,contador)}>Agregar al Carrito</Button>
+              <ButtonGroup aria-label="Basic example">
+                <Button variant="dark" onClick={decremento}>-</Button>
+                <Button disabled variant="light">{contador}</Button>
+                <Button variant="dark" onClick={incremento}>+</Button>
+              </ButtonGroup>
+              <Button variant="dark" onClick={() => agregarAlCarrito(productos,contador)}>Agregar</Button>
             </div>
           </Card.Body>
           <Card.Footer className="text-muted text-center">Stock: {productos.stock}</Card.Footer>
